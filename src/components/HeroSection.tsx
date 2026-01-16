@@ -51,11 +51,11 @@ const HeroSection = () => {
 
   /* 🔥 CLICK GLOW COLORS */
   const glowColors = [
-    "rgba(239,68,68,0.35)",   // red
-    "rgba(59,130,246,0.35)",  // blue
-    "rgba(34,197,94,0.35)",   // green
-    "rgba(168,85,247,0.35)",  // purple
-    "rgba(255,255,255,0.35)",// white
+    "rgba(239,68,68,0.35)",
+    "rgba(59,130,246,0.35)",
+    "rgba(34,197,94,0.35)",
+    "rgba(168,85,247,0.35)",
+    "rgba(255,255,255,0.35)",
   ];
   const [glowIndex, setGlowIndex] = useState(0);
 
@@ -208,8 +208,9 @@ const HeroSection = () => {
               <p>I enjoy solving real-world problems with code.</p>
             </div>
 
+            {/* ✅ FIXED DOWNLOAD LINK (PRODUCTION SAFE) */}
             <a
-              href="/src/assets/siddardha_Resume.pdf"
+              href="/siddardha_Resume.pdf"
               download
               className="
                 inline-flex items-center gap-2
@@ -240,7 +241,7 @@ const HeroSection = () => {
                   whileHover={{
                     y: -6,
                     scale: 1.15,
-                    backgroundColor: "#a30707ff",
+                    backgroundColor: "#d70505ff",
                   }}
                   className="w-11 h-11 rounded-full border border-red-500 flex items-center justify-center text-red-500 hover:text-white"
                 >
