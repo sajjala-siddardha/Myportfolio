@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sajjala Siddardha | Portfolio</title>
+
+  <link rel="icon" type="image/png" href="/favicon.jpg" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background: #000;
+      overflow-x: hidden;
+      overflow-y: auto; /* ✅ ALWAYS SCROLLABLE */
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* ===== LOADER ===== */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%);
+      display: grid;
+      place-items: center;
+      z-index: 9999;
+      transition: opacity 0.4s ease, visibility 0s 0.4s;
+    }
+
+    #loader.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .circle-wrapper {
+      position: relative;
+      width: 260px;
+      height: 260px;
+      display: grid;
+      place-items: center;
+    }
+
+    .line-ring {
+      position: absolute;
+      inset: 0;
+      animation: spin 15s linear infinite;
+    }
+
+    .video-circle {
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow:
+        0 0 30px rgba(230,36,41,0.35),
+        inset 0 0 20px rgba(0,0,0,0.85);
+    }
+
+    .video-circle video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .center-dot {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #e62429;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+      box-shadow: 0 0 15px #e62429;
+    }
+
+    .loader-text {
+      margin-top: 22px;
+      color: #e5e7eb;
+      font-size: 18px;
+      letter-spacing: 1px;
+      font-weight: 300;
+    }
+
+    .loading-dots span {
+      opacity: 0;
+      animation: dotPulse 1.5s infinite;
+      color: #e62429;
+    }
+
+    .loading-dots span:nth-child(1) { animation-delay: 0s; }
+    .loading-dots span:nth-child(2) { animation-delay: 0.15s; }
+    .loading-dots span:nth-child(3) { animation-delay: 0.3s; }
+
+    .progress-container {
+      width: 200px;
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+      margin-top: 15px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #e62429, #ff4757);
+      width: 0%;
+      transition: width 0.2s ease;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+    }
+
+    @keyframes dotPulse {
+      0%,100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-box">
+      <div class="circle-wrapper">
+        <svg class="line-ring" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="98" fill="none" stroke="#e62429" stroke-width="2" stroke-dasharray="1,15"/>
+        </svg>
+
+        <!-- ✅ CORRECT VIDEO PATH -->
+        <div class="video-circle">
+          <video id="loaderVideo" autoplay muted playsinline preload="auto">
+            <source src="/src/assets/spiderman.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+        <div class="center-dot"></div>
+      </div>
+
+      <div class="loader-text">
+        Loading Sajjala Siddardha
+        <span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REACT ROOT -->
+  <div id="root"></div>
+
+  <script type="module" src="/src/main.tsx"></script>
+
+  <script>
+    const loader = document.getElementById("loader");
+    const video = document.getElementById("loaderVideo");
+    const progressBar = document.getElementById("progressBar");
+
+    const hideLoader = () => {
+      loader.classList.add("hide");
+      document.body.style.overflowY = "auto"; // ✅ force scroll
+      setTimeout(() => loader.remove(), 400);
+    };
+
+    if (video) {
+      video.playbackRate = 2.0;
+      video.play().catch(() => video.play());
+
+      video.addEventListener("timeupdate", () => {
+        if (video.duration) {
+          progressBar.style.width =
+            (video.currentTime / video.duration) * 100 + "%";
+        }
+      });
+
+      video.addEventListener("ended", hideLoader);
+      video.addEventListener("error", () => setTimeout(hideLoader, 4000));
+    }
+
+    // HARD FAILSAFE
+    setTimeout(hideLoader, 6000);
+  </script>
+</body>
+</html>
