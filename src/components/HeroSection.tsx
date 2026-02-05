@@ -210,7 +210,7 @@ const HeroSection = () => {
 
             {/* ✅ FIXED DOWNLOAD LINK (PRODUCTION SAFE) */}
             <a
-              href="/siddardha_Resume.pdf"
+              href="/siddardha.pdf"
               download
               className="
                 inline-flex items-center gap-2
